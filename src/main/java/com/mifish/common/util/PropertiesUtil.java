@@ -1,14 +1,14 @@
 package com.mifish.common.util;
 
 /**
- *	PropertiesUtil
- * 
+ * PropertiesUtil
+ *
  * @author ruanlsh
  * @time:2013-07-20
- * */
-public final class PropertiesUtil{
-	
-	private PropertiesUtil(){}
-	
+ */
+public final class PropertiesUtil {
 
+    /***PropertiesUtil*/
+    private PropertiesUtil() {
+    }
 }

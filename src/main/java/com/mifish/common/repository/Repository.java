@@ -29,7 +29,6 @@ public interface Repository {
      */
     long getVersion();
 
-
     /**
      * refresh
      *
