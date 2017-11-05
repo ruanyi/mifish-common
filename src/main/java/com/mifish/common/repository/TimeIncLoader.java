@@ -1,6 +1,5 @@
 package com.mifish.common.repository;
 
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -25,6 +24,6 @@ public interface TimeIncLoader<T> {
      * @param endTime
      * @return
      */
-    List<T> loadSome(Date startTime, Date endTime);
+    List<T> loadSome(long startTime, long endTime);
 
 }

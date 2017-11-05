@@ -17,6 +17,13 @@ import java.util.List;
  */
 public final class ClassUtil extends ClassUtils {
 
+    /**
+     * join
+     *
+     * @param left
+     * @param right
+     * @return
+     */
     public static Field[] join(Field[] left, Field[] right) {
         return ArrayUtil.join(left, right);
     }

@@ -16,7 +16,9 @@ import java.util.regex.Pattern;
  */
 public final class StringUtil extends StringUtils {
 
-    private StringUtil() {
+    /***/
+    private StringUtil() throws Exception {
+        throw new IllegalAccessException("");
     }
 
     /**

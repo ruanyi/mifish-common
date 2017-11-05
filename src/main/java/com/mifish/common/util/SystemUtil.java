@@ -12,6 +12,4 @@ public final class SystemUtil extends SystemUtils {
 
     private SystemUtil() {
     }
-
-
 }

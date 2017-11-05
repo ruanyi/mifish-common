@@ -1,7 +1,5 @@
 package com.mifish.common.repository;
 
-import java.util.Date;
-
 /**
  * Description:
  *
@@ -25,18 +23,18 @@ public interface Repository {
     void destroy();
 
     /**
-     * getTimeVersion
+     * getVersion
      *
      * @return
      */
-    Date getTimeVersion();
+    long getVersion();
 
 
     /**
      * refresh
      *
-     * @param timeVersion
+     * @param version
      * @return
      */
-    boolean refresh(Date timeVersion);
+    boolean refresh(long version);
 }
