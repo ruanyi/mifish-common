@@ -1,25 +1,25 @@
 package com.mifish.common.chain;
 
 import com.mifish.common.chain.impl.SimpleChain;
+import com.mifish.common.chain.impl.SimpleEngine;
 import com.mifish.common.chain.nodes.DummyNode;
-import com.mifish.common.profiler.MethodProfiler;
+import org.junit.Assert;
 import org.junit.Test;
 
 /**
  * Description:
  *
  * @author: rls
- * Date: 2017-11-02 20:18
+ * Date: 2017-11-06 13:59
  */
-public class SimpleChainTest {
+public class SimpleEngineTest {
 
     @Test
-    public void testDummy() {
+    public void test1() {
         Chain<String, String> chain = SimpleChain.buildSimpleChain(DummyNode.newInstance(), DummyNode.newInstance(),
                 DummyNode.newInstance());
-        chain.execute("1");
-        System.out.println(MethodProfiler.dump());
-        MethodProfiler.reset();
-        System.out.println();
+        Engine<String> engine = new SimpleEngine<>();
+        String rs = engine.digest("1", chain);
+        Assert.assertEquals(rs, null);
     }
 }

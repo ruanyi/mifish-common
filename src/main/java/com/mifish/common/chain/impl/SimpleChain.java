@@ -4,6 +4,7 @@ import com.google.common.collect.Lists;
 import com.mifish.common.chain.Chain;
 import com.mifish.common.chain.Node;
 import com.mifish.common.chain.Processor;
+import com.mifish.common.profiler.MethodProfiler;
 
 import java.util.Iterator;
 import java.util.List;
@@ -16,13 +17,13 @@ import static com.google.common.base.Preconditions.checkArgument;
  * @author: rls
  * Date: 2017-11-02 20:04
  */
-public class SimpleChain<P> implements Chain<P> {
+public class SimpleChain<P, R> implements Chain<P, R> {
 
     /***iterator*/
-    private Iterator<Node<P>> iterator;
+    private Iterator<Node<P, R>> iterator;
 
     /***processor*/
-    private Processor<P> processor;
+    private Processor<P, R> processor;
 
     /**
      * SimpleChain
@@ -30,7 +31,7 @@ public class SimpleChain<P> implements Chain<P> {
      * @param nodes
      * @param processor
      */
-    public SimpleChain(List<Node<P>> nodes, Processor<P> processor) {
+    public SimpleChain(List<Node<P, R>> nodes, Processor<P, R> processor) {
         checkArgument(nodes != null, "nodes cannot be null in SimpleChain");
         this.iterator = nodes.iterator();
         this.processor = processor;
@@ -41,7 +42,7 @@ public class SimpleChain<P> implements Chain<P> {
      *
      * @param nodes
      */
-    public SimpleChain(List<Node<P>> nodes) {
+    public SimpleChain(List<Node<P, R>> nodes) {
         this(nodes, null);
     }
 
@@ -51,14 +52,20 @@ public class SimpleChain<P> implements Chain<P> {
      * @param param
      */
     @Override
-    public void execute(P param) {
+    public R execute(P param) {
         if (this.iterator.hasNext()) {
-            Node<P> node = this.iterator.next();
-            node.doAction(param, this);
+            Node<P, R> node = this.iterator.next();
+            return node.doAction(param, this);
         } else {
             if (this.processor != null) {
-                this.processor.process(param);
+                try {
+                    MethodProfiler.enter("processor:" + this.processor.getName() + "begin,Param:" + param);
+                    return this.processor.process(param);
+                } finally {
+                    MethodProfiler.release();
+                }
             }
+            return null;
         }
     }
 
@@ -70,7 +77,7 @@ public class SimpleChain<P> implements Chain<P> {
      * @param <T>
      * @return
      */
-    public static <T> Chain<T> buildSimpleChain(Processor<T> processor, Node<T>... nodes) {
+    public static <T, S> Chain<T, S> buildSimpleChain(Processor<T, S> processor, Node<T, S>... nodes) {
         return new SimpleChain<>(Lists.newArrayList(nodes), processor);
     }
 
@@ -81,7 +88,7 @@ public class SimpleChain<P> implements Chain<P> {
      * @param <T>
      * @return
      */
-    public static <T> Chain<T> buildSimpleChain(Node<T>... nodes) {
+    public static <T, S> Chain<T, S> buildSimpleChain(Node<T, S>... nodes) {
         return new SimpleChain<>(Lists.newArrayList(nodes));
     }
 }

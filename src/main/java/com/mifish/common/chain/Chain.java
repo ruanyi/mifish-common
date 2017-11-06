@@ -6,12 +6,12 @@ package com.mifish.common.chain;
  * @author: rls
  * Date: 2017-11-02 20:02
  */
-public interface Chain<P> {
+public interface Chain<P, R> {
 
     /**
      * execute
      *
      * @param param
      */
-    void execute(P param);
+    R execute(P param);
 }

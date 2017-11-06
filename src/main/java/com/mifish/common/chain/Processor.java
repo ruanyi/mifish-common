@@ -6,12 +6,19 @@ package com.mifish.common.chain;
  * @author: rls
  * Date: 2017-11-02 20:09
  */
-public interface Processor<P> {
+public interface Processor<P, R> {
+
+    /**
+     * getName
+     *
+     * @return
+     */
+    String getName();
 
     /**
      * process
      *
      * @param param
      */
-    void process(P param);
+    R process(P param);
 }

@@ -6,7 +6,14 @@ package com.mifish.common.chain;
  * @author: rls
  * Date: 2017-11-02 20:02
  */
-public interface Node<P> {
+public interface Node<P, R> {
+
+    /**
+     * getName
+     *
+     * @return
+     */
+    String getName();
 
     /**
      * doAction
@@ -14,5 +21,5 @@ public interface Node<P> {
      * @param param
      * @param chain
      */
-    void doAction(P param, Chain<P> chain);
+    R doAction(P param, Chain<P, R> chain);
 }
