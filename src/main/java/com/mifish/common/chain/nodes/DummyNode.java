@@ -34,7 +34,9 @@ public class DummyNode<P, R> implements Node<P, R> {
         try {
             MethodProfiler.enter("node:" + getName() + "begin,Param:" + param);
             //do nothing,and go on execute
-            return chain.execute(param);
+            R r = chain.execute(param);
+            //do something about result,may return new r or just return r
+            return r;
         } finally {
             MethodProfiler.release();
         }
