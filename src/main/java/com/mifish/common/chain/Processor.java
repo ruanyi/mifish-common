@@ -19,6 +19,7 @@ public interface Processor<P, R> {
      * process
      *
      * @param param
+     * @return
      */
     R process(P param);
 }
