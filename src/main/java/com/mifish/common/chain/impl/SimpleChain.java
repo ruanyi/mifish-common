@@ -50,6 +50,7 @@ public class SimpleChain<P, R> implements Chain<P, R> {
      * execute
      *
      * @param param
+     * @return R
      */
     @Override
     public R execute(P param) {

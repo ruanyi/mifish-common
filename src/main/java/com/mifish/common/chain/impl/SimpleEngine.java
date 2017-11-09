@@ -23,7 +23,7 @@ public class SimpleEngine<P> implements Engine<P> {
      * @param param
      * @param chain
      * @param <R>
-     * @return
+     * @return R
      */
     @Override
     public <R> R digest(P param, Chain<P, R> chain) {

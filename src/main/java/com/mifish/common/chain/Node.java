@@ -20,6 +20,7 @@ public interface Node<P, R> {
      *
      * @param param
      * @param chain
+     * @return R
      */
     R doAction(P param, Chain<P, R> chain);
 }

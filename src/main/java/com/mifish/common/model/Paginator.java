@@ -394,7 +394,8 @@ public class Paginator implements Serializable, Cloneable {
         try {
             return super.clone();
         } catch (java.lang.CloneNotSupportedException e) {
-            return null; // 不可能发生
+            // 不可能发生
+            return null;
         }
     }
 

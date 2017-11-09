@@ -14,7 +14,7 @@ public interface Engine<P> {
      * @param param
      * @param chain
      * @param <R>
-     * @return
+     * @return R
      */
-    <R> R digest(P param, Chain<P,R> chain);
+    <R> R digest(P param, Chain<P, R> chain);
 }

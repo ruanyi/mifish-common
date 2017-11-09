@@ -12,6 +12,7 @@ public interface Chain<P, R> {
      * execute
      *
      * @param param
+     * @return R
      */
     R execute(P param);
 }
