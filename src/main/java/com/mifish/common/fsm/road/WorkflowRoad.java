@@ -4,6 +4,8 @@ import com.mifish.common.fsm.Step;
 import com.mifish.common.fsm.exception.StepNotFoundException;
 import com.mifish.common.fsm.model.Society;
 import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Description:
@@ -12,6 +14,9 @@ import org.apache.commons.lang.StringUtils;
  * Date: 2017-12-10 00:07
  */
 public class WorkflowRoad extends AbstractRoad {
+
+    /***logger*/
+    private static final Logger logger = LoggerFactory.getLogger(WorkflowRoad.class);
 
     /**
      * WorkflowRoad
@@ -33,9 +38,16 @@ public class WorkflowRoad extends AbstractRoad {
     @Override
     public int walk(Society society) throws Exception {
         long start = System.currentTimeMillis();
-        //开始走第一步
-        doStep(getFirstStep(), society);
-        //如果没有抛出异常，则证明是成功的
+        try {
+            //开始走第一步
+            doStep(getFirstStep(), society);
+            //如果没有抛出异常，则证明是成功的
+        } finally {
+            if (logger.isInfoEnabled()) {
+                logger.info("WorkflowRoad," + getTopic() + "," + getFirstStep() + "," + (System.currentTimeMillis() -
+                        start));
+            }
+        }
         return SUCCESS;
     }
 
