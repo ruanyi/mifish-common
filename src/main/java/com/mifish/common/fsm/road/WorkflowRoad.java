@@ -38,17 +38,19 @@ public class WorkflowRoad extends AbstractRoad {
     @Override
     public int walk(Society society) throws Exception {
         long start = System.currentTimeMillis();
+        int result = FAILURE;
         try {
             //开始走第一步
             doStep(getFirstStep(), society);
             //如果没有抛出异常，则证明是成功的
+            result = SUCCESS;
+            return result;
         } finally {
             if (logger.isInfoEnabled()) {
-                logger.info("WorkflowRoad," + getTopic() + "," + getFirstStep() + "," + (System.currentTimeMillis() -
-                        start));
+                logger.info("WorkflowRoad," + getTopic() + "," + getFirstStep() + "result:" + result + ",Society:" +
+                        society + "," + (System.currentTimeMillis() - start));
             }
         }
-        return SUCCESS;
     }
 
     /**
