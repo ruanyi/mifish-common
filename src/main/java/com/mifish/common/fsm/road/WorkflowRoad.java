@@ -71,7 +71,8 @@ public class WorkflowRoad extends AbstractRoad {
             String nextStepName = step.step(society);
             //走好下一步
             doStep(nextStepName, society);
+        } else {
+            throw new StepNotFoundException(getTopic() + "," + getFirstStep() + "," + stepName + " is not exist");
         }
-        throw new StepNotFoundException(getTopic() + "," + getFirstStep() + "," + stepName + " is not exist");
     }
 }

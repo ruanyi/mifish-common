@@ -1,0 +1,75 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-4.0.xsd" default-autowire="byName">
+
+    #if ($ddd == 'a')
+        <import resource="classpath:pfop-processor.xml"/>
+        <import resource="classpath:spring/console.xml"/>
+    #else
+        <import resource="classpath:spring/meta/service-basic-meta.xml"/>
+        <import resource="classpath:spring/fop-redis.xml"/>
+        <import resource="classpath:spring/fop-uuid.xml"/>
+    #end
+
+
+
+    <bean class="com.meitu.platform.commons.spring.ConfigLoaderPropertyPlaceholderConfigurer">
+        <property name="ignoreUnresolvablePlaceholders" value="true"/>
+        <property name="location">
+            <value>classpath:pfop-processor.properties</value>
+        </property>
+    </bean>
+
+    <bean id="failoverProducer" class="com.meitu.commons.queue.kafka.KafkaProducer">
+        <constructor-arg name="brokers" value="${kafka.brokers}"/>
+        <constructor-arg name="poolSize" value="${kafka.producer.poolSize}"/>
+        <constructor-arg name="sendTimeout" value="${kafka.producer.sendTimeout}"/>
+        <constructor-arg name="producerConfigs">
+            <null/>
+        </constructor-arg>
+    </bean>
+
+    <bean id="queueConsumer" class="com.meitu.mercury.pfop.processor.queue.kafka.MutiKafkaQueueConsumer"
+          init-method="start">
+        <constructor-arg name="zk" value="${pfop.processor.kafka.zk}"/>
+        <constructor-arg name="group" value="${pfop.processor.kafka.groupId}"/>
+        <constructor-arg name="topicPath" value="${pfop.processor.kafka.topicpath}"/>
+        <constructor-arg name="messageHandler" ref="messageHandler"/>
+        <constructor-arg name="consumerConfigs">
+            <map>
+                <entry key="fetch.message.max.bytes" value="${pfop.processor.kafka.fetch.message.max.bytes}"/>
+                <entry key="num.consumer.fetchers" value="${pfop.processor.kafka.num.consumer.fetchers}"/>
+                <entry key="queued.max.message.chunks" value="${pfop.processor.kafka.queued.max.message.chunks}"/>
+                <entry key="auto.commit.interval.ms" value="${pfop.processor.kafka.auto.commit.interval.ms}"/>
+            </map>
+        </constructor-arg>
+    </bean>
+
+    <bean id="messageHandler" class="com.meitu.mercury.pfop.processor.handler.PfopMessageHandler"/>
+
+    <bean id="pfopLife" class="com.meitu.mercury.pfop.processor.workflow.life.SimplePfopLife">
+        <property name="roadContainer">
+            <map key-type="java.lang.String" value-type="com.meitu.mercury.pfop.processor.workflow.PfopRoad">
+            </map>
+        </property>
+        <property name="defaultPfopRoad">
+            <ref bean="defaultPfopRoad"/>
+        </property>
+    </bean>
+
+    <bean id="defaultPfopRoad" class="com.meitu.mercury.pfop.processor.workflow.road.PfopWorkflowRoad">
+        <constructor-arg name="topic" value="default_topic"/>
+        <constructor-arg name="firstStep" value="init_foot_traces"/>
+        <property name="steps">
+            <list>
+                <ref bean="init_foot_traces"/>
+                <ref bean="get_init_pfop_status"/>
+                <ref bean="launch_mercury_request"/>
+                <ref bean="invoke_mercury_http_result"/>
+                <ref bean="put_to_failure_queue"/>
+                <ref bean="retryable_http_callback"/>
+            </list>
+        </property>
+    </bean>
+</beans>
