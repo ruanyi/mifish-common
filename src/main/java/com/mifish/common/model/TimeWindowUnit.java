@@ -69,7 +69,7 @@ public enum TimeWindowUnit {
      */
     public static TimeWindowUnit getTimeWindowUnit(String unit) {
         for (TimeWindowUnit twu : values()) {
-            if (StringUtils.endsWithIgnoreCase(twu.getUnit(), unit)) {
+            if (StringUtils.equalsIgnoreCase(twu.getUnit(), unit)) {
                 return twu;
             }
         }
