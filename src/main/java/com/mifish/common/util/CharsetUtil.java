@@ -122,7 +122,6 @@ public final class CharsetUtil {
         if (bytes == null) {
             throw new NullPointerException("the bytes cannot be null!!!");
         }
-        //ת��
         return toBytes(toChars(bytes, "UTF-8"), "GBK");
     }
 

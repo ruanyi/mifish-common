@@ -3,7 +3,6 @@ package com.mifish.common.util;
 import org.apache.commons.lang.ClassUtils;
 
 import java.lang.annotation.Annotation;
-
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
@@ -102,5 +101,9 @@ public final class ClassUtil extends ClassUtils {
             fields[i].setAccessible(true);
         }
         return fields;
+    }
+
+    private ClassUtil() {
+
     }
 }
