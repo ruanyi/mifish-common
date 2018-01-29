@@ -1,6 +1,11 @@
 package com.mifish.common.util;
 
-import java.util.HashMap;
+import groovy.lang.Binding;
+import groovy.lang.GroovyClassLoader;
+import groovy.lang.GroovyShell;
+import groovy.lang.Script;
+import org.apache.commons.lang.StringUtils;
+
 import java.util.Map;
 
 /**
@@ -17,27 +22,54 @@ public final class GroovyScriptUtil {
     }
 
     /**
-     * eval
-     *
-     * @param script
-     * @param params
-     * @return Object
+     * GROOVY_CLASS_LOADER
      */
-    public static Object eval(String script, Map<String, Object> params) {
-        if (params == null) {
-            params = new HashMap<String, Object>();
+    private static final GroovyClassLoader GROOVY_CLASS_LOADER = new GroovyClassLoader();
+
+    /**
+     * groovyShell
+     */
+    private static GroovyShell groovyShell = new GroovyShell();
+
+    /**
+     * parseClass
+     *
+     * @param text
+     * @return
+     */
+    public static Class<?> parseClass(String text) {
+        try {
+            if (StringUtils.isBlank(text)) {
+                return null;
+            }
+            Class<?> clazz = GROOVY_CLASS_LOADER.parseClass(text);
+            return clazz;
+        } catch (Exception ex) {
+            return null;
         }
-
-        return null;
     }
 
-    public static Object eval(String script) {
-        return eval(script, null);
+    /**
+     * executeScript
+     *
+     * @param scriptStr
+     * @param params
+     * @return
+     */
+    public static Object executeScript(String scriptStr, Map<String, Object> params) {
+        try {
+            Script script = groovyShell.parse(scriptStr);
+            Binding binding = new Binding();
+            if (params != null && !params.isEmpty()) {
+                for (Map.Entry<String, Object> entry : params.entrySet()) {
+                    binding.setVariable(entry.getKey(), entry.getValue());
+                }
+            }
+            script.setBinding(binding);
+            return script.run();
+        } catch (Exception ex) {
+            return null;
+        }
     }
 
-    //
-    public static Object evalCache(String key, String script, Map<String, Object> params) {
-
-        return null;
-    }
 }
