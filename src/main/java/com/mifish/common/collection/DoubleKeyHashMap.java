@@ -6,6 +6,7 @@ import com.google.common.collect.Sets;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
@@ -85,7 +86,15 @@ public class DoubleKeyHashMap<M, N, V> implements DoubleKeyMap<M, N, V> {
      */
     @Override
     public boolean containsValue(V value) {
-        return this.firstTable.containsValue(value);
+        if (!isEmpty()) {
+            for (Map.Entry<M, DoubleKeyNode<M, N, V>> entry : this.firstTable.entrySet()) {
+                DoubleKeyNode<M, N, V> doubleKeyNode = entry.getValue();
+                if (Objects.equals(doubleKeyNode.getValue(), value)) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     /**
