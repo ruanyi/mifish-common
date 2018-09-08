@@ -1,7 +1,8 @@
 package com.mifish.common.repository;
 
-import com.meitu.wizard.common.util.RandomUtil;
-import com.meitu.wizard.common.util.ThreadUtil;
+
+import com.mifish.common.util.RandomUtil;
+import com.mifish.common.util.ThreadUtil;
 
 /**
  * Description:
@@ -22,7 +23,7 @@ public abstract class AbstractRepository implements Repository {
      * @throws Exception
      */
     @Override
-    public void init() throws Exception {
+    public void init()  {
         this.timeVersion = -1;
     }
 
@@ -32,7 +33,7 @@ public abstract class AbstractRepository implements Repository {
      * @throws Exception
      */
     @Override
-    public void destroy() throws Exception {
+    public void destroy() {
         this.timeVersion = -1;
     }
 

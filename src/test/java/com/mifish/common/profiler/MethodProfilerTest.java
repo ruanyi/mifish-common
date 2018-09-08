@@ -24,6 +24,7 @@ public class MethodProfilerTest {
             MethodProfiler.enter("3===> methods");
             MethodProfiler.release();
             System.out.println(MethodProfiler.dump());
+            MethodProfiler.release();
         } catch (InterruptedException e) {
             e.printStackTrace();
         } finally {
