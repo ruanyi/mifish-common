@@ -7,7 +7,7 @@ import java.util.UUID;
  * Description:
  *
  * @author: rls
- * Date: 2018-04-15 10:09
+ * @Date: 2018-04-15 10:09
  */
 public abstract class MifishEvent implements Serializable {
 
