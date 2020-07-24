@@ -16,8 +16,8 @@ import java.util.concurrent.locks.ReentrantLock;
 /**
  * Description:
  *
- * @author: rls
- * Date: 2018-01-22 11:17
+ * @author: ruanyi
+ * @Date: 2018-01-22 11:17
  */
 public class DoubleKeyHashMap<M, N, V> implements DoubleKeyMap<M, N, V> {
 
